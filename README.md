@@ -19,6 +19,7 @@
     <img src="https://img.shields.io/badge/Capacitor_8-119EFF?style=flat-square&logo=capacitor&logoColor=white" alt="Capacitor 8">
     <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
     <img src="https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v4">
+    <img src="https://img.shields.io/badge/ssgoi-8B5CF6?style=flat-square&logoColor=white" alt="ssgoi">
   </p>
 
   <p>
@@ -48,17 +49,7 @@ Most cross-platform solutions force you to pick one: Electron for desktop, React
 
 No code duplication. No framework lock-in. Just SolidJS everywhere.
 
-## Stack
-
-| Layer       | Technology                  | Why                                               |
-| ----------- | --------------------------- | ------------------------------------------------- |
-| Framework   | SolidStart (Vinxi + Vite)   | File-based routing, SSR, API routes               |
-| UI          | Tailwind CSS v4             | Utility-first, zero-runtime CSS                   |
-| Mobile      | Capacitor 8                 | Native APIs — camera, haptics, push, biometrics   |
-| Desktop     | Tauri v2                    | ~10MB binary, native dialogs, filesystem, tray    |
-| Transitions | solid-transition-group      | iOS slide / Material fade+scale page transitions  |
-| Linting     | ESLint + Prettier           | SolidJS, TypeScript, and a11y rules preconfigured |
-| Testing     | Vitest                      | E2E build verification for all three platforms    |
+The project runs on **SolidStart** (Vinxi + Vite) for file-based routing and SSR, styled with **Tailwind CSS v4**. Mobile targets iOS and Android via **Capacitor 8** — real native APIs, not a webview wrapper. Desktop targets macOS, Linux, and Windows via **Tauri v2**, producing a ~10MB binary instead of Electron's 200MB. Page transitions are powered by **ssgoi** — iOS-style slide and Material fade+scale work out of the box. The whole thing is written in strict **TypeScript**, with ESLint, Prettier, and Vitest build tests preconfigured.
 
 ## Prerequisites
 
