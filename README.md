@@ -1,338 +1,364 @@
-# solid-cross
+<div align="center">
+  <h1>solidjs-crossplatform-starter</h1>
+  <p><strong>One codebase. Three platforms. Ship everywhere.</strong></p>
+  <p>
+    A production-ready starter for building <strong>web</strong>, <strong>mobile</strong>, and <strong>desktop</strong> apps<br/>
+    with SolidStart, Capacitor, and Tauri.
+  </p>
 
-Cross-platform app boilerplate: **Web + Mobile + Desktop** using SolidJS.
+  <p>
+    <a href="https://github.com/llupRisinglll/solidjs-crossplatform-starter/blob/main/LICENSE"><img src="https://img.shields.io/github/license/llupRisinglll/solidjs-crossplatform-starter?style=flat-square" alt="MIT License"></a>
+    <a href="https://github.com/llupRisinglll/solidjs-crossplatform-starter/stargazers"><img src="https://img.shields.io/github/stars/llupRisinglll/solidjs-crossplatform-starter?style=flat-square" alt="Stars"></a>
+    <a href="https://github.com/llupRisinglll/solidjs-crossplatform-starter/issues"><img src="https://img.shields.io/github/issues/llupRisinglll/solidjs-crossplatform-starter?style=flat-square" alt="Issues"></a>
+    <a href="https://github.com/llupRisinglll/solidjs-crossplatform-starter/pulls"><img src="https://img.shields.io/github/issues-pr/llupRisinglll/solidjs-crossplatform-starter?style=flat-square" alt="Pull Requests"></a>
+  </p>
+
+  <p>
+    <img src="https://img.shields.io/badge/SolidJS-335d92?style=flat-square&logo=solid&logoColor=white" alt="SolidJS">
+    <img src="https://img.shields.io/badge/Tauri_v2-24C8D8?style=flat-square&logo=tauri&logoColor=white" alt="Tauri v2">
+    <img src="https://img.shields.io/badge/Capacitor_8-119EFF?style=flat-square&logo=capacitor&logoColor=white" alt="Capacitor 8">
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+    <img src="https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v4">
+  </p>
+
+  <p>
+    <a href="https://github.com/new?template_name=solidjs-crossplatform-starter&template_owner=llupRisinglll">
+      <img src="https://img.shields.io/badge/Use_this_template-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="Use this template">
+    </a>
+  </p>
+
+  <p>
+    <a href="#prerequisites">Prerequisites</a> &bull;
+    <a href="#getting-started">Getting Started</a> &bull;
+    <a href="#platform-builds">Build for Any Platform</a> &bull;
+    <a href="#examples">Examples</a> &bull;
+    <a href="#contributing">Contributing</a>
+  </p>
+</div>
+
+---
+
+## Why this starter?
+
+Most cross-platform solutions force you to pick one: Electron for desktop, React Native for mobile, or SSR for web. This starter gives you **all three from a single SolidJS codebase**:
+
+- **Web** — SSR with SolidStart, deployed as a Node server
+- **Mobile** — Native iOS & Android via [Capacitor](https://capacitorjs.com) (real native APIs, not a webview wrapper)
+- **Desktop** — Lightweight native apps via [Tauri v2](https://v2.tauri.app) (~10MB binary, not 200MB Electron)
+
+No code duplication. No framework lock-in. Just SolidJS everywhere.
 
 ## Stack
 
-| Layer       | Technology                     | Purpose                                              |
-| ----------- | ------------------------------ | ---------------------------------------------------- |
-| Framework   | SolidStart (Vinxi + Vite)      | SSR, routing, API routes                             |
-| Styling     | Tailwind CSS v4                | Utility-first CSS                                    |
-| Transitions | SSGOI + solid-transition-group | Spring-physics page transitions (slide, fade, scale) |
-| Mobile      | Capacitor                      | Native APIs (camera, haptics, push, etc.)            |
-| Desktop     | Tauri v2                       | Lightweight native desktop wrapper                   |
-| Routing     | @solidjs/router                | Hash routing (native) / standard (web)               |
-| Linting     | ESLint + Prettier              | Code quality + consistent formatting                 |
+| Layer       | Technology                  | Why                                               |
+| ----------- | --------------------------- | ------------------------------------------------- |
+| Framework   | SolidStart (Vinxi + Vite)   | File-based routing, SSR, API routes               |
+| UI          | Tailwind CSS v4             | Utility-first, zero-runtime CSS                   |
+| Mobile      | Capacitor 8                 | Native APIs — camera, haptics, push, biometrics   |
+| Desktop     | Tauri v2                    | ~10MB binary, native dialogs, filesystem, tray    |
+| Transitions | solid-transition-group      | iOS slide / Material fade+scale page transitions  |
+| Linting     | ESLint + Prettier           | SolidJS, TypeScript, and a11y rules preconfigured |
+| Testing     | Vitest                      | E2E build verification for all three platforms    |
+
+## Prerequisites
+
+| Requirement | Needed for | Install |
+|-------------|-----------|---------|
+| Node.js ≥ 18 | All platforms | [nodejs.org](https://nodejs.org) |
+| Rust + Cargo | Desktop builds only | [rustup.rs](https://rustup.rs) |
+| Xcode | iOS builds only | Mac App Store |
+| Android Studio | Android builds only | [developer.android.com](https://developer.android.com/studio) |
+
+> **Just exploring?** Web development works with Node.js alone — no Rust, Xcode, or Android Studio needed. Add them later when you're ready to target desktop or mobile.
 
 ## Getting Started
 
 ```bash
+# Clone and install
+git clone https://github.com/llupRisinglll/solidjs-crossplatform-starter.git
+cd solidjs-crossplatform-starter
 npm install
+
+# Start developing
 npm run dev
 ```
 
-Open [http://localhost:3456](http://localhost:3456) to see the app.
+Open [http://localhost:3456](http://localhost:3456) — you'll see a fully working demo app with interactive samples covering SolidJS reactivity patterns and a native features page that adapts to your current platform.
 
 ## Platform Builds
 
-### Prerequisites
+### Web
 
-Desktop builds (Tauri) require system libraries:
+```bash
+npm run build:web     # SSR build (Node server)
+npm run preview       # Preview the production build
+```
 
-**Arch Linux:**
+### Mobile (iOS & Android)
+
+```bash
+npm run build:mobile  # Static build + Capacitor sync
+npm run cap:ios       # Open in Xcode
+npm run cap:android   # Open in Android Studio
+```
+
+### Desktop (macOS, Linux, Windows)
+
+Desktop builds require system libraries. Install once:
+
+<details>
+<summary><strong>Arch Linux</strong></summary>
 
 ```bash
 sudo pacman -S webkit2gtk-4.1
 ```
+</details>
 
-**Ubuntu/Debian:**
+<details>
+<summary><strong>Ubuntu / Debian</strong></summary>
 
 ```bash
 sudo apt install libwebkit2gtk-4.1-dev build-essential libssl-dev libayatana-appindicator3-dev librsvg2-dev
 ```
+</details>
 
-**Fedora:**
+<details>
+<summary><strong>Fedora</strong></summary>
 
 ```bash
 sudo dnf install webkit2gtk4.1-devel openssl-devel
 ```
+</details>
 
-See the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/) for other platforms.
+<details>
+<summary><strong>macOS / Windows</strong></summary>
 
-### Build commands
+See the [Tauri prerequisites guide](https://v2.tauri.app/start/prerequisites/).
+</details>
+
+Then build:
 
 ```bash
-# Web (SSR with Node server)
-npm run build:web
-
-# Mobile (static + Capacitor)
-npm run build:mobile
-npm run cap:android    # Open in Android Studio
-npm run cap:ios        # Open in Xcode
-
-# Desktop (static + Tauri)
-npm run tauri:dev      # Dev with hot reload
-npm run build:desktop  # Production build
+npm run build:desktop   # Production binary + installer
+npm run tauri:dev       # Dev with hot reload
 ```
+
+## How It Works
+
+The same SolidJS code runs everywhere. The build system handles the differences:
+
+| | Web | Mobile | Desktop |
+|---|---|---|---|
+| **Rendering** | SSR (Node server) | Client-side SPA | Client-side SPA |
+| **Routing** | Standard Router | HashRouter | HashRouter |
+| **Native APIs** | Web APIs | Capacitor plugins | Tauri plugins |
+| **Output** | `.output/server/` | `.output/public/` | Binary + installer |
+
+### Platform Detection
+
+```tsx
+import { detectPlatform, isMobile, isDesktop } from "~/lib/platform";
+
+// Runtime — adapts UI at runtime
+const platform = detectPlatform(); // "web" | "mobile" | "desktop"
+
+// Build-time — tree-shakes platform-specific code
+if (import.meta.env.IS_DESKTOP) {
+  // Only included in desktop builds
+}
+```
+
+### Native Features
+
+Use dynamic imports so all platforms compile cleanly:
+
+```tsx
+async function triggerHaptic() {
+  if (detectPlatform() === "mobile") {
+    const { Haptics, ImpactStyle } = await import("@capacitor/haptics");
+    await Haptics.impact({ style: ImpactStyle.Medium });
+  } else if (detectPlatform() === "desktop") {
+    const { message } = await import("@tauri-apps/plugin-dialog");
+    await message("Hello from Tauri!", { title: "Native Dialog" });
+  }
+}
+```
+
+### Transitions
+
+Pages transition automatically based on the detected design language:
+
+- **iOS** — Slide push/pop (swipe-back gesture from left edge)
+- **Material** — Fade + scale
+
+Customize in `src/assets/css/transitions.css`.
 
 ## Examples
 
-The project ships with interactive sample components that demonstrate core SolidJS patterns. Each one compiles and runs on all three platforms. Browse them at `/samples` in the running app, or read the source in `src/routes/samples/`.
+The starter includes interactive samples that compile on all platforms. Run the app and visit `/samples`, or read the source in `src/routes/samples/`.
 
-### Counter (`/samples/counter`)
+| Sample | Route | Concepts |
+|--------|-------|----------|
+| **Counter** | `/samples/counter` | `createSignal`, `createMemo`, `createEffect`, `onCleanup` |
+| **Todo List** | `/samples/todos` | `createStore`, `<For>`, `<Show>`, event handling |
+| **Data Fetching** | `/samples/fetch` | `createResource`, `<Suspense>`, `<ErrorBoundary>` |
+| **Form Handling** | `/samples/forms` | Controlled inputs, validation, derived state |
 
-**Concepts:** `createSignal`, `createMemo`, `createEffect`, `onCleanup`
-
-A reactive counter with increment/decrement buttons, auto-increment mode, and derived values.
+<details>
+<summary><strong>Counter — Signals & Reactivity</strong></summary>
 
 ```tsx
-// Signals hold reactive state
 const [count, setCount] = createSignal(0);
-
-// Memos derive computed values that update automatically
 const doubled = createMemo(() => count() * 2);
-const isEven = createMemo(() => count() % 2 === 0);
 
-// Effects run side effects and clean up automatically
 createEffect(() => {
   if (!autoIncrement()) return;
   const id = setInterval(() => setCount((c) => c + 1), 1000);
   onCleanup(() => clearInterval(id));
 });
 ```
+</details>
 
-Key takeaways:
-
-- Signals are getter functions: call `count()` to read, `setCount()` to write
-- Memos re-compute only when their dependencies change
-- Effects track dependencies automatically and clean up via `onCleanup`
-
-### Todo List (`/samples/todos`)
-
-**Concepts:** `createStore`, `<For>`, `<Show>`, event handling
-
-A fully functional todo list with add, toggle, and remove operations.
+<details>
+<summary><strong>Todo List — Stores & Fine-Grained Updates</strong></summary>
 
 ```tsx
-// Stores provide fine-grained reactivity for complex state
-const [todos, setTodos] = createStore<Todo[]>([...]);
+const [todos, setTodos] = createStore<Todo[]>([]);
 
-// Granular store updates — only the changed todo re-renders
-function toggleTodo(id: number) {
-  setTodos(
-    (t) => t.id === id,  // find the item
-    "done",              // target the property
-    (done) => !done,     // toggle it
-  );
-}
+// Surgically update one property on one item — no re-render of the list
+setTodos((t) => t.id === id, "done", (done) => !done);
 ```
+</details>
+
+<details>
+<summary><strong>Data Fetching — Resources & Suspense</strong></summary>
 
 ```tsx
-// <For> efficiently renders lists — items are keyed, not recreated
-<For each={todos}>
-  {(todo) => <li>{todo.text}</li>}
-</For>
-
-// <Show> conditionally renders content
-<Show when={total() > 0 && remaining() === 0}>
-  <div>All done!</div>
-</Show>
-```
-
-Key takeaways:
-
-- Use `createStore` for arrays/objects — it updates surgically, not by replacement
-- `<For>` is mandatory for lists in SolidJS (not `.map()`) — ESLint enforces this
-- `<Show>` is the idiomatic way to do conditional rendering
-
-### Data Fetching (`/samples/fetch`)
-
-**Concepts:** `createResource`, `<Suspense>`, `<ErrorBoundary>`
-
-Fetches users from an API with loading states and error handling.
-
-```tsx
-// createResource manages async data with built-in loading/error states
 const [users, { refetch }] = createResource(enabled, fetchUsers);
-```
 
-```tsx
-// ErrorBoundary catches errors thrown during rendering
 <ErrorBoundary fallback={(err) => <div>Error: {err.message}</div>}>
-  {/* Suspense shows a fallback while resources are loading */}
   <Suspense fallback={<Spinner />}>
-    <Show when={users()}>
-      {(userList) => <For each={userList().slice(0, 5)}>{(user) => <UserCard user={user} />}</For>}
-    </Show>
+    <For each={users()}>{(user) => <UserCard user={user} />}</For>
   </Suspense>
 </ErrorBoundary>
 ```
+</details>
 
-Key takeaways:
-
-- `createResource` takes a source signal and a fetcher — it refetches when the source changes
-- Wrap async UI in `<Suspense>` for loading states and `<ErrorBoundary>` for errors
-- The callback form of `<Show>` (`{(data) => ...}`) narrows the type and avoids null checks
-
-### Form Handling (`/samples/forms`)
-
-**Concepts:** controlled inputs, validation with `createMemo`, derived state
-
-A contact form with real-time validation and submission preview.
+<details>
+<summary><strong>Form Handling — Validation as Derived State</strong></summary>
 
 ```tsx
-const [name, setName] = createSignal("");
 const [email, setEmail] = createSignal("");
-
-// Validation is just derived state
-const nameError = createMemo(() => {
-  if (name().length > 0 && name().trim().length < 2) return "Name must be at least 2 characters";
-  return "";
-});
-
-// Aggregate validity from individual checks
-const isValid = createMemo(
-  () => name().trim().length >= 2 && email().includes("@") && !nameError(),
+const emailError = createMemo(() =>
+  email().length > 0 && !email().includes("@") ? "Invalid email" : "",
 );
+const isValid = createMemo(() => email().includes("@") && !emailError());
 ```
+</details>
 
-```tsx
-// Controlled inputs bind value + onInput
-<input
-  value={name()}
-  onInput={(e) => setName(e.currentTarget.value)}
-/>
+## Scripts
 
-// Disable submit until valid
-<button type="submit" disabled={!isValid()}>Submit</button>
-```
-
-Key takeaways:
-
-- Validation is just memos — no special form library needed
-- SolidJS uses `onInput` (fires on every keystroke) rather than `onChange` (fires on blur)
-- Use `e.currentTarget.value` in SolidJS, not `e.target.value`
-
-## Platform Config
-
-Toggle platforms on/off in `platform.config.ts`:
-
-```ts
-export const platformConfig = {
-  web: true,
-  mobile: true,
-  desktop: true,
-};
-```
-
-Build-time platform detection via env var:
-
-```bash
-PLATFORM=mobile npm run build   # Build for mobile only
-PLATFORM=desktop npm run build  # Build for desktop only
-```
-
-Runtime platform detection:
-
-```ts
-import { detectPlatform, isMobile, isDesktop } from "~/lib/platform";
-```
-
-## Transitions
-
-Page transitions use [SSGOI](https://ssgoi.dev) (`@ssgoi/solid`) for spring-physics animations, with `solid-transition-group` as a CSS fallback. Both systems run together — SSGOI handles element-level transitions via `<PageTransition>`, while `solid-transition-group` handles route-level CSS transitions.
-
-- **iOS**: Slide transitions (push right / pop left)
-- **Material**: Fade + scale transitions
-- **Swipe back**: Left-edge gesture on touch devices (30px threshold)
-
-SSGOI is loaded client-only (it requires SolidJS 2.0 APIs internally), so SSR prerendering works without issues.
-
-```tsx
-// Wrap each route page with PageTransition
-import { PageTransition } from "~/lib/ssgoi-client";
-
-export default function MyPage() {
-  return (
-    <PageTransition id="/my-page">
-      <div>Page content</div>
-    </PageTransition>
-  );
-}
-```
-
-The SSGOI config is in `src/lib/ssgoi.ts`. CSS fallback transitions are in `src/assets/css/transitions.css`.
-
-## Native Features
-
-- **Mobile**: Install Capacitor plugins (`@capacitor/camera`, `@capacitor/haptics`, etc.)
-- **Desktop**: Add Tauri plugins (`cargo tauri plugin add dialog`, etc.)
-- **Web**: Standard Web APIs
-
-Use dynamic imports with try/catch for native deps so all platforms compile:
-
-```tsx
-async function useNativeFeature() {
-  if (detectPlatform() === "mobile") {
-    const { Haptics } = await import("@capacitor/haptics");
-    await Haptics.impact({ style: ImpactStyle.Medium });
-  }
-}
-```
-
-## Linting & Formatting
-
-The project uses ESLint with TypeScript, SolidJS, and accessibility plugins, plus Prettier for formatting.
-
-```bash
-npm run lint          # Check for lint errors
-npm run lint:fix      # Auto-fix lint errors
-npm run format        # Format all files with Prettier
-npm run format:check  # Check formatting without writing
-```
-
-The ESLint config (`eslint.config.js`) includes:
-
-- **typescript-eslint** — TypeScript-aware rules
-- **eslint-plugin-solid** — SolidJS-specific rules (e.g., prefer `<For>` over `.map()`)
-- **eslint-plugin-jsx-a11y** — Accessibility checks
-- **eslint-config-prettier** — Disables rules that conflict with Prettier
-
-## Testing
-
-```bash
-npm run test:build    # E2E build tests for all platforms
-```
-
-The build tests (`tests/build/platforms.test.ts`) verify that `vinxi build` succeeds for web, mobile, and desktop targets, and that the expected output files are produced.
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server on port 3456 |
+| `npm run build:web` | Build for web (SSR) |
+| `npm run build:mobile` | Build for mobile (static + Capacitor) |
+| `npm run build:desktop` | Build for desktop (static + Tauri) |
+| `npm run tauri:dev` | Desktop dev server with hot reload |
+| `npm run cap:ios` | Open iOS project in Xcode |
+| `npm run cap:android` | Open Android project in Android Studio |
+| `npm run lint` | Run ESLint |
+| `npm run format` | Run Prettier |
+| `npm run test:build` | E2E build tests for all platforms |
 
 ## Project Structure
 
 ```
-solid-cross/
+solidjs-crossplatform-starter/
 ├── src/
-│   ├── routes/              # File-based routing
-│   │   ├── index.tsx        # Home page
-│   │   ├── demo.tsx         # Transitions demo
-│   │   ├── demo/detail.tsx  # Nested detail page
-│   │   ├── native.tsx       # Native features showcase
-│   │   ├── samples.tsx      # Samples index
-│   │   └── samples/
-│   │       ├── counter.tsx  # Signals, memos, effects
-│   │       ├── todos.tsx    # Stores, For, Show
-│   │       ├── fetch.tsx    # createResource, Suspense
-│   │       └── forms.tsx    # Inputs, validation
+│   ├── routes/                # File-based routing
+│   │   ├── index.tsx          # Home page
+│   │   ├── demo/
+│   │   │   ├── index.tsx      # Transitions demo
+│   │   │   └── detail.tsx     # Detail page (push transition)
+│   │   ├── samples/
+│   │   │   ├── index.tsx      # Samples index with inline demo
+│   │   │   ├── counter.tsx    # Signals, memos, effects
+│   │   │   ├── todos.tsx      # Stores, For, Show
+│   │   │   ├── fetch.tsx      # createResource, Suspense
+│   │   │   └── forms.tsx      # Inputs, validation
+│   │   └── native.tsx         # Native features showcase
 │   ├── lib/
-│   │   ├── platform.ts      # Runtime platform detection
-│   │   ├── transitions.ts   # Transition direction & CSS
-│   │   ├── swipe-back.ts    # iOS-style swipe gesture
-│   │   ├── ssgoi.ts         # SSGOI transition config
-│   │   ├── ssgoi-client.ts  # Client-only SSGOI exports
-│   │   ├── ssgoi-provider.tsx # SSGOI provider wrapper
-│   │   └── ssgoi-transition.tsx # PageTransition wrapper
+│   │   ├── platform.ts        # Runtime platform detection
+│   │   ├── transitions.ts     # Transition direction & CSS
+│   │   └── swipe-back.ts      # iOS-style swipe gesture
 │   ├── assets/css/
-│   │   ├── app.css          # Tailwind + transition imports
-│   │   └── transitions.css  # Platform-specific animations
-│   ├── app.tsx              # Root app with router + transitions
-│   ├── entry-client.tsx     # Client entry point
-│   └── entry-server.tsx     # Server entry point
-├── src-tauri/               # Tauri desktop config + Rust
-├── tests/
-│   └── build/
-│       └── platforms.test.ts # E2E build verification
-├── platform.config.ts       # Enable/disable platforms
-├── app.config.ts            # SolidStart + Vite config
-├── capacitor.config.ts      # Capacitor mobile config
-├── eslint.config.js         # ESLint configuration
-└── .prettierrc              # Prettier configuration
+│   │   ├── app.css            # Tailwind + transition imports
+│   │   └── transitions.css    # iOS slide / Material fade+scale
+│   ├── app.tsx                # Root layout with router + transitions
+│   ├── entry-client.tsx       # Client entry point
+│   └── entry-server.tsx       # Server entry point
+├── src-tauri/                 # Tauri config + Rust backend
+├── tests/build/               # E2E build verification
+├── app.config.ts              # SolidStart + Vite config
+├── capacitor.config.ts        # Capacitor config
+├── platform.config.ts         # Enable/disable platforms
+├── eslint.config.js           # ESLint config
+└── .prettierrc                # Prettier config
 ```
+
+## Making It Your Own
+
+Everything in `src/routes/samples/` and `src/routes/demo/` is demo content — safe to delete once you start building your app.
+
+### 1. Choose your platforms
+
+Edit `platform.config.ts` to disable platforms you don't need:
+
+```ts
+export const platformConfig = {
+  web: true,
+  mobile: false,  // disables Capacitor
+  desktop: true,
+};
+```
+
+This prevents unused native dependencies from being bundled into other platform builds.
+
+### 2. Add your own routes
+
+Drop `.tsx` files into `src/routes/` — SolidStart picks them up automatically via file-based routing:
+
+```
+src/routes/
+├── index.tsx        # → /
+├── about.tsx        # → /about
+└── dashboard/
+    └── index.tsx    # → /dashboard
+```
+
+### 3. Call native APIs safely
+
+Use dynamic imports so all platforms compile cleanly, regardless of which native SDKs are installed:
+
+```tsx
+const platform = detectPlatform(); // "web" | "mobile" | "desktop"
+
+if (platform === "mobile") {
+  const { Camera } = await import("@capacitor/camera");
+  // iOS/Android only
+} else if (platform === "desktop") {
+  const { open } = await import("@tauri-apps/plugin-dialog");
+  // macOS/Linux/Windows only
+}
+```
+
+## Contributing
+
+Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md) before submitting a pull request.
+
+This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
+
+## License
+
+[MIT](LICENSE)
