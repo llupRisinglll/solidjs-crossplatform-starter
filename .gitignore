@@ -1,0 +1,21 @@
+node_modules/
+.output/
+.vinxi/
+dist/
+
+# Capacitor native projects
+android/
+ios/
+
+# Tauri
+src-tauri/target/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
