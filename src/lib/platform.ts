@@ -19,7 +19,12 @@ export function detectPlatform(): Platform {
   if ("__TAURI__" in window) return "desktop";
 
   // Capacitor mobile detection
-  if ("Capacitor" in window && (window as any).Capacitor?.isNativePlatform?.()) {
+  if (
+    "Capacitor" in window &&
+    (
+      window as unknown as Record<string, { isNativePlatform?: () => boolean }>
+    ).Capacitor?.isNativePlatform?.()
+  ) {
     return "mobile";
   }
 

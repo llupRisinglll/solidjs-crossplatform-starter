@@ -1,0 +1,6 @@
+.output/
+.vinxi/
+dist/
+node_modules/
+src-tauri/target/
+package-lock.json

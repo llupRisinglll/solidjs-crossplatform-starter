@@ -48,6 +48,13 @@ export default function Home() {
           Transitions Demo &rarr;
         </A>
         <A
+          href="/samples"
+          onClick={navigateForward}
+          class="rounded-lg bg-green-600 px-6 py-3 text-center font-medium text-white transition-colors hover:bg-green-700 active:bg-green-800"
+        >
+          Sample Components &rarr;
+        </A>
+        <A
           href="/native"
           onClick={navigateForward}
           class="rounded-lg border border-gray-300 px-6 py-3 text-center font-medium text-gray-900 transition-colors hover:bg-gray-100 active:bg-gray-200 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800"

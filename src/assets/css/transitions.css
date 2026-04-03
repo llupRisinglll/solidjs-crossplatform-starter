@@ -50,7 +50,9 @@
 /* --- Android Material fade + scale --- */
 .fade-scale-enter-active,
 .fade-scale-exit-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .fade-scale-enter {
@@ -98,14 +100,22 @@
 /* --- Page transition container --- */
 .page-transition-container {
   position: relative;
-  overflow: hidden;
   width: 100%;
-  height: 100%;
+  min-height: 100dvh;
 }
 
-.page-transition-container > * {
+/* During transitions, stack pages on top of each other */
+.page-transition-container > .slide-right-enter-active,
+.page-transition-container > .slide-right-exit-active,
+.page-transition-container > .slide-left-enter-active,
+.page-transition-container > .slide-left-exit-active,
+.page-transition-container > .fade-scale-enter-active,
+.page-transition-container > .fade-scale-exit-active,
+.page-transition-container > .fade-enter-active,
+.page-transition-container > .fade-exit-active {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
 }

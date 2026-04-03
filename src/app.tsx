@@ -1,16 +1,17 @@
 import { Router, HashRouter } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
-import { Suspense } from "solid-js";
+import { type JSX, Suspense } from "solid-js";
+import { isServer } from "solid-js/web";
 import { Transition } from "solid-transition-group";
 import { getTransitionName } from "~/lib/transitions";
 import { useSwipeBack } from "~/lib/swipe-back";
 import "./assets/css/app.css";
 
-function AppLayout(props: { children: any }) {
+function AppLayout(props: { children: JSX.Element }) {
   useSwipeBack();
 
   return (
-    <div class="page-transition-container min-h-screen bg-white dark:bg-gray-950">
+    <div class="page-transition-container relative min-h-screen bg-white dark:bg-gray-950">
       <Transition name={getTransitionName()}>
         <Suspense>{props.children}</Suspense>
       </Transition>
@@ -19,10 +20,8 @@ function AppLayout(props: { children: any }) {
 }
 
 export default function App() {
-  // Web uses standard Router (supports SSR).
-  // Mobile/Desktop use HashRouter (works in native webviews without a server).
   const platform = import.meta.env.PLATFORM || "web";
-  const RouterComponent = platform === "web" ? Router : HashRouter;
+  const RouterComponent = platform === "web" || isServer ? Router : HashRouter;
 
   return (
     <RouterComponent root={AppLayout}>

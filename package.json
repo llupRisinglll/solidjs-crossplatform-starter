@@ -3,30 +3,48 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vinxi dev",
+    "dev": "vinxi dev --port 3456",
     "build": "vinxi build",
     "build:web": "PLATFORM=web vinxi build",
     "build:mobile": "PLATFORM=mobile vinxi build && npx cap sync",
-    "build:desktop": "PLATFORM=desktop vinxi build && npx tauri build",
+    "build:desktop": "npx tauri build",
     "preview": "vinxi start",
     "cap:sync": "npx cap sync",
     "cap:android": "npx cap open android",
     "cap:ios": "npx cap open ios",
     "tauri:dev": "npx tauri dev",
-    "tauri:build": "npx tauri build"
+    "tauri:build": "npx tauri build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:build": "vitest run --config vitest.build.config.ts"
   },
   "dependencies": {
     "@capacitor/cli": "^8.3.0",
     "@capacitor/core": "^8.3.0",
     "@solidjs/router": "^0.16.1",
     "@solidjs/start": "^1.3.2",
+    "@ssgoi/core": "^4.4.1",
+    "@ssgoi/solid": "^4.0.0",
+    "@tauri-apps/plugin-dialog": "^2.6.0",
     "solid-js": "^1.9.12",
     "solid-transition-group": "^0.3.0",
     "vinxi": "^0.5.11"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.2.2",
     "@tauri-apps/cli": "^2.10.1",
-    "tailwindcss": "^4.2.2"
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-solid": "^0.14.5",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.0",
+    "vitest": "^4.1.2"
   }
 }

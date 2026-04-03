@@ -1,6 +1,6 @@
 import { A } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
-import { detectPlatform, isMobile, isDesktop, isNative } from "~/lib/platform";
+import { detectPlatform } from "~/lib/platform";
 import { setDirection } from "~/lib/transitions";
 
 export default function NativeFeatures() {
@@ -40,8 +40,7 @@ export default function NativeFeatures() {
     <div class="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Native Features</h1>
       <p class="max-w-md text-center text-gray-600 dark:text-gray-400">
-        Mobile uses Capacitor plugins for native APIs.
-        Desktop uses Tauri plugins for native APIs.
+        Mobile uses Capacitor plugins for native APIs. Desktop uses Tauri plugins for native APIs.
         Web gracefully degrades.
       </p>
 
@@ -59,9 +58,17 @@ export default function NativeFeatures() {
       </Show>
 
       <div class="max-w-md space-y-2 text-sm text-gray-500">
-        <p><strong>Mobile (Capacitor):</strong> Haptics, Camera, Push Notifications, Filesystem, Biometrics</p>
-        <p><strong>Desktop (Tauri):</strong> Dialogs, System Tray, File System, Shell Commands, Notifications</p>
-        <p><strong>Web:</strong> Standard Web APIs, Service Workers, Web Push</p>
+        <p>
+          <strong>Mobile (Capacitor):</strong> Haptics, Camera, Push Notifications, Filesystem,
+          Biometrics
+        </p>
+        <p>
+          <strong>Desktop (Tauri):</strong> Dialogs, System Tray, File System, Shell Commands,
+          Notifications
+        </p>
+        <p>
+          <strong>Web:</strong> Standard Web APIs, Service Workers, Web Push
+        </p>
       </div>
 
       <A
