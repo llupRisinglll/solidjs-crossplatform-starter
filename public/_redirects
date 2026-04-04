@@ -1,0 +1,4 @@
+# Cloudflare Pages redirects for SPA fallback
+# https://developers.cloudflare.com/pages/configuration/redirects/
+# Uncomment the line below for SPA (client-side routing) mode:
+# /*  /index.html  200

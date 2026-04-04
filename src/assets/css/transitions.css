@@ -1,100 +1,29 @@
 /* ============================================
-   Native-feeling page transitions
-   iOS-style slide and Android-style fade/scale
+   Page transitions — SSR-safe CSS animations
+   ============================================
+
+   Web: CSS @keyframes re-triggered via JS on each route change (see app.tsx).
+   This approach avoids solid-transition-group which breaks SSR hydration
+   in SolidStart 1.3.x (TypeError: template2 is not a function).
+
+   Native (Capacitor/Tauri): SSR is disabled, so solid-transition-group
+   or other JS-based transition libraries can be used safely.
    ============================================ */
 
-/* --- iOS Push (slide from right) --- */
-.slide-right-enter-active,
-.slide-right-exit-active {
-  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+/* --- Web page enter animation --- */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.slide-right-enter {
-  transform: translateX(100%);
-}
-
-.slide-right-enter-to {
-  transform: translateX(0);
-}
-
-.slide-right-exit {
-  transform: translateX(0);
-}
-
-.slide-right-exit-to {
-  transform: translateX(-30%);
-}
-
-/* --- iOS Pop (slide from left) --- */
-.slide-left-enter-active,
-.slide-left-exit-active {
-  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-}
-
-.slide-left-enter {
-  transform: translateX(-30%);
-}
-
-.slide-left-enter-to {
-  transform: translateX(0);
-}
-
-.slide-left-exit {
-  transform: translateX(0);
-}
-
-.slide-left-exit-to {
-  transform: translateX(100%);
-}
-
-/* --- Android Material fade + scale --- */
-.fade-scale-enter-active,
-.fade-scale-exit-active {
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-}
-
-.fade-scale-enter {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-.fade-scale-enter-to {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.fade-scale-exit {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.fade-scale-exit-to {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-/* --- Simple fade --- */
-.fade-enter-active,
-.fade-exit-active {
-  transition: opacity 0.2s ease;
-}
-
-.fade-enter {
-  opacity: 0;
-}
-
-.fade-enter-to {
-  opacity: 1;
-}
-
-.fade-exit {
-  opacity: 1;
-}
-
-.fade-exit-to {
-  opacity: 0;
+.page-enter {
+  animation: pageEnter 0.25s ease forwards;
 }
 
 /* --- Page transition container --- */
@@ -102,20 +31,4 @@
   position: relative;
   width: 100%;
   min-height: 100dvh;
-}
-
-/* During transitions, stack pages on top of each other */
-.page-transition-container > .slide-right-enter-active,
-.page-transition-container > .slide-right-exit-active,
-.page-transition-container > .slide-left-enter-active,
-.page-transition-container > .slide-left-exit-active,
-.page-transition-container > .fade-scale-enter-active,
-.page-transition-container > .fade-scale-exit-active,
-.page-transition-container > .fade-enter-active,
-.page-transition-container > .fade-exit-active {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  min-height: 100dvh;
-  overflow: hidden;
 }

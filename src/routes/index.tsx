@@ -1,4 +1,5 @@
 import { A } from "@solidjs/router";
+import { Title, Meta } from "@solidjs/meta";
 import { createSignal, onMount } from "solid-js";
 import { detectPlatform, getDesignLanguage } from "~/lib/platform";
 import { setDirection } from "~/lib/transitions";
@@ -18,6 +19,10 @@ export default function Home() {
 
   return (
     <div class="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
+      {/* Per-route SEO — MetaProvider in app.tsx makes these work during SSR/SSG */}
+      <Title>solid-cross — Cross-platform SolidJS Boilerplate</Title>
+      <Meta name="description" content="Cross-platform boilerplate with SolidJS, SolidStart, Capacitor, and Tauri." />
+
       <h1 class="text-4xl font-bold text-gray-900 dark:text-white">solid-cross</h1>
       <p class="text-lg text-gray-600 dark:text-gray-400">
         Cross-platform boilerplate with SolidJS

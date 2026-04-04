@@ -328,6 +328,8 @@ src/routes/
     └── index.tsx    # → /dashboard
 ```
 
+> **Route precedence:** Static routes always take priority over dynamic `[param]` routes. If you have both `src/routes/admin.tsx` and `src/routes/[slug].tsx`, visiting `/admin` will always render the static route. No need for a `reserved-routes.ts` guard.
+
 ### 3. Call native APIs safely
 
 Use dynamic imports so all platforms compile cleanly, regardless of which native SDKs are installed:

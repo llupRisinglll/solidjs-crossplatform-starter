@@ -31,6 +31,7 @@ function nativeExternals(): Plugin {
 }
 
 const platform = process.env.PLATFORM || "web";
+const preset = process.env.PRESET || (platform !== "web" ? "static" : "node-server");
 
 const isNative = platform !== "web";
 
@@ -49,6 +50,16 @@ export default defineConfig({
     },
   },
   server: {
-    preset: isNative ? "static" : "node-server",
+    // Use PRESET env to override. Examples:
+    //   PRESET=static  → SSG for Cloudflare Pages, Netlify, etc.
+    //   PRESET=cloudflare-pages → Cloudflare Pages with edge functions
+    //   (default) node-server for web, static for native
+    preset,
+
+    // Uncomment to prerender specific routes during static builds:
+    // prerender: {
+    //   routes: ["/", "/about", "/pricing"],
+    //   crawlLinks: true, // auto-discover linked pages from the routes above
+    // },
   },
 });
