@@ -87,6 +87,15 @@ npm run preview       # Preview the production build
 
 ### Mobile (iOS & Android)
 
+First time? Generate the native projects:
+
+```bash
+npx cap add ios       # creates ios/ directory
+npx cap add android   # creates android/ directory
+```
+
+Then build and open:
+
 ```bash
 npm run build:mobile  # Static build + Capacitor sync
 npm run cap:ios       # Open in Xcode
@@ -145,6 +154,45 @@ The same SolidJS code runs everywhere. The build system handles the differences:
 | **Native APIs** | Web APIs | Capacitor plugins | Tauri plugins |
 | **Output** | `.output/server/` | `.output/public/` | Binary + installer |
 
+### Platform Build Modes
+
+Web uses **SSR** (server-side rendering) with `Router` for full SEO and streaming. Native platforms (desktop, mobile) use **static SPA** mode with `HashRouter` because there's no server to render HTML — Tauri and Capacitor load files directly from disk.
+
+This means server functions, streaming, and other SSR features are **web-only**. Code that runs on native platforms must work entirely on the client. The build system handles this automatically via the `PLATFORM` env var.
+
+### Backend Integration
+
+Most apps talk to a backend. The starter provides:
+
+- **Vite proxy** — Uncomment the proxy config in `app.config.ts` to forward `/api` calls to your backend during development (avoids CORS)
+- **`src/lib/api.ts`** — Platform-aware API base URL resolution. Web uses relative paths (works with proxy in dev, same-origin in prod). Desktop defaults to `http://localhost:4000` for a sidecar backend. Set `VITE_API_URL` in `.env` to override.
+- **`src/lib/auth.ts`** — Token management and `fetchWithAuth()` wrapper that attaches Bearer tokens and redirects on 401
+
+### Auth Guard
+
+The starter includes a provider-agnostic auth pattern:
+
+```tsx
+// Wrap individual components
+<AuthGuard fallback={<p>Redirecting...</p>}>
+  <ProtectedContent />
+</AuthGuard>
+
+// Or use route groups — see src/routes/(protected)/
+// All routes in (protected)/ are automatically guarded
+```
+
+Replace `isAuthenticated()` in `src/lib/auth.ts` with your auth provider's check (Supabase, Better Auth, Firebase, etc.).
+
+### Dark Mode & Theming
+
+The starter respects `prefers-color-scheme` out of the box. All sample components use Tailwind's `dark:` variants. For manual control, use the `ThemeToggle` component:
+
+```tsx
+import ThemeToggle from "~/components/ThemeToggle";
+// renders a system/light/dark cycle button
+```
+
 ### Platform Detection
 
 ```tsx
@@ -194,6 +242,8 @@ The starter includes interactive samples that compile on all platforms. Run the 
 | **Todo List** | `/samples/todos` | `createStore`, `<For>`, `<Show>`, event handling |
 | **Data Fetching** | `/samples/fetch` | `createResource`, `<Suspense>`, `<ErrorBoundary>` |
 | **Form Handling** | `/samples/forms` | Controlled inputs, validation, derived state |
+| **Store & Produce** | `/samples/store` | `createStore`, `produce`, nested state, derived |
+| **Server-Sent Events** | `/samples/sse` | `createSSE`, real-time updates, auto-reconnect |
 
 <details>
 <summary><strong>Counter — Signals & Reactivity</strong></summary>
@@ -251,7 +301,9 @@ const isValid = createMemo(() => email().includes("@") && !emailError());
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start dev server on port 3456 |
+| `npm run dev` | Start web dev server on port 3456 |
+| `npm run dev:desktop` | Start desktop dev server on port 3457 (SSR disabled) |
+| `npm run dev:all` | Run web + desktop dev servers simultaneously |
 | `npm run build:web` | Build for web (SSR) |
 | `npm run build:mobile` | Build for mobile (static + Capacitor) |
 | `npm run build:desktop` | Build for desktop (static + Tauri) |
@@ -260,42 +312,64 @@ const isValid = createMemo(() => email().includes("@") && !emailError());
 | `npm run cap:android` | Open Android project in Android Studio |
 | `npm run lint` | Run ESLint |
 | `npm run format` | Run Prettier |
+| `npm run test:unit` | Component tests (solid-testing-library) |
 | `npm run test:build` | E2E build tests for all platforms |
+| `npm run test:e2e` | Playwright E2E tests |
 
 ## Project Structure
 
 ```
 solidjs-crossplatform-starter/
 ├── src/
-│   ├── routes/                # File-based routing
-│   │   ├── index.tsx          # Home page
+│   ├── routes/                  # File-based routing
+│   │   ├── index.tsx            # Home page
+│   │   ├── native.tsx           # Native features showcase
+│   │   ├── (protected).tsx      # Auth-guarded route group layout
+│   │   ├── (protected)/
+│   │   │   └── dashboard.tsx    # Example protected route → /dashboard
 │   │   ├── demo/
-│   │   │   ├── index.tsx      # Transitions demo
-│   │   │   └── detail.tsx     # Detail page (push transition)
-│   │   ├── samples/
-│   │   │   ├── index.tsx      # Samples index with inline demo
-│   │   │   ├── counter.tsx    # Signals, memos, effects
-│   │   │   ├── todos.tsx      # Stores, For, Show
-│   │   │   ├── fetch.tsx      # createResource, Suspense
-│   │   │   └── forms.tsx      # Inputs, validation
-│   │   └── native.tsx         # Native features showcase
+│   │   │   ├── index.tsx        # Transitions demo
+│   │   │   └── detail.tsx       # Detail page (push transition)
+│   │   ├── docs/
+│   │   │   └── [[lang]].tsx     # Optional param → /docs, /docs/en
+│   │   ├── files/
+│   │   │   └── [...path].tsx    # Catch-all param → /files/any/path
+│   │   └── samples/
+│   │       ├── index.tsx        # Samples index with inline demo
+│   │       ├── counter.tsx      # Signals, memos, effects
+│   │       ├── todos.tsx        # Stores, For, Show
+│   │       ├── fetch.tsx        # createResource, Suspense
+│   │       ├── forms.tsx        # Inputs, validation
+│   │       ├── store.tsx        # createStore, produce, nested state
+│   │       └── sse.tsx          # Server-Sent Events demo
+│   ├── components/
+│   │   ├── AuthGuard.tsx        # Route guard (redirect if unauthenticated)
+│   │   └── ThemeToggle.tsx      # Dark/light/system theme switcher
 │   ├── lib/
-│   │   ├── platform.ts        # Runtime platform detection
-│   │   ├── transitions.ts     # Transition direction & CSS
-│   │   └── swipe-back.ts      # iOS-style swipe gesture
+│   │   ├── platform.ts          # Runtime platform detection
+│   │   ├── api.ts               # Platform-aware API base URL + fetch
+│   │   ├── auth.ts              # Token management + fetchWithAuth
+│   │   ├── sse.ts               # SSE client with auto-reconnect
+│   │   ├── transitions.ts       # Transition direction & CSS
+│   │   └── swipe-back.ts        # iOS-style swipe gesture
 │   ├── assets/css/
-│   │   ├── app.css            # Tailwind + transition imports
-│   │   └── transitions.css    # iOS slide / Material fade+scale
-│   ├── app.tsx                # Root layout with router + transitions
-│   ├── entry-client.tsx       # Client entry point
-│   └── entry-server.tsx       # Server entry point
-├── src-tauri/                 # Tauri config + Rust backend
-├── tests/build/               # E2E build verification
-├── app.config.ts              # SolidStart + Vite config
-├── capacitor.config.ts        # Capacitor config
-├── platform.config.ts         # Enable/disable platforms
-├── eslint.config.js           # ESLint config
-└── .prettierrc                # Prettier config
+│   │   ├── app.css              # Tailwind, dark mode, scrollbars
+│   │   └── transitions.css      # iOS slide / Material fade+scale
+│   ├── app.tsx                  # Root layout with router + transitions
+│   ├── entry-client.tsx         # Client entry point
+│   └── entry-server.tsx         # Server entry point
+├── src-tauri/                   # Tauri config + Rust backend
+├── tests/
+│   ├── build/                   # Build verification tests
+│   └── unit/                    # Component tests (solid-testing-library)
+├── e2e/                         # Playwright E2E tests
+├── .github/workflows/ci.yml    # CI: lint, test, E2E
+├── docs/                        # Architecture decisions & guides
+├── app.config.ts                # SolidStart + Vite + devtools config
+├── capacitor.config.ts          # Capacitor config
+├── platform.config.ts           # Enable/disable platforms
+├── eslint.config.js             # ESLint config
+└── .prettierrc                  # Prettier config
 ```
 
 ## Making It Your Own

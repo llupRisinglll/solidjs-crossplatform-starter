@@ -1,5 +1,6 @@
 import { defineConfig } from "@solidjs/start/config";
 import tailwindcss from "@tailwindcss/vite";
+// import devtools from "solid-devtools/vite"; // uncomment when solid-devtools supports your Vite version
 import type { Plugin } from "vite";
 
 // Optional native dependencies that only exist in their respective runtimes.
@@ -11,6 +12,10 @@ import type { Plugin } from "vite";
 const nativeDeps: Record<string, string[]> = {
   "@capacitor/haptics": ["web", "mobile", "desktop"], // not installed, stub everywhere
   "@tauri-apps/plugin-dialog": ["web", "mobile"], // installed, but only works on desktop
+  "@tauri-apps/plugin-deep-link": ["web", "mobile"],
+  "@tauri-apps/plugin-opener": ["web", "mobile"],
+  "@tauri-apps/plugin-shell": ["web", "mobile"],
+  "@tauri-apps/plugin-updater": ["web", "mobile"],
 };
 
 function nativeExternals(): Plugin {
@@ -23,8 +28,9 @@ function nativeExternals(): Plugin {
     },
     load(id) {
       if (id.startsWith("\0native-stub:")) {
-        const mod = id.slice("\0native-stub:".length);
-        return `throw new Error("${mod} is not available on this platform");`;
+        // Return a no-op proxy so imports don't crash at evaluation time.
+        // Code using native APIs should guard with isMobile()/isDesktop() checks.
+        return `export default new Proxy({}, { get: () => () => {} });`;
       }
     },
   };
@@ -41,7 +47,24 @@ export default defineConfig({
   // Otherwise the prerendered HTML uses Router, causing a hydration mismatch.
   ssr: !isNative,
   vite: {
-    plugins: [tailwindcss(), nativeExternals()],
+    plugins: [
+      // solid-devtools: click-to-source, component tree, signal inspector (dev only)
+      // devtools({ autoname: true }), // uncomment after installing solid-devtools
+      tailwindcss(),
+      nativeExternals(),
+    ],
+
+    // Proxy API calls to your backend during development.
+    // Avoids CORS issues when your backend runs on a different port.
+    // server: {
+    //   proxy: {
+    //     "/api": {
+    //       target: "http://localhost:4000",
+    //       changeOrigin: true,
+    //     },
+    //   },
+    // },
+
     define: {
       "import.meta.env.PLATFORM": JSON.stringify(platform),
       "import.meta.env.IS_WEB": JSON.stringify(platform === "web"),

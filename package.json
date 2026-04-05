@@ -4,6 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "vinxi dev --port 3456",
+    "dev:desktop": "PLATFORM=desktop vinxi dev --port 3457",
+    "dev:all": "concurrently -n web,desktop -c blue,green \"npm run dev\" \"npx tauri dev\"",
     "build": "vinxi build",
     "build:web": "PLATFORM=web vinxi build",
     "build:static": "PLATFORM=web PRESET=static vinxi build",
@@ -20,6 +22,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "test:unit": "vitest run --config vitest.config.ts",
     "test:build": "vitest run --config vitest.build.config.ts",
     "test:e2e": "playwright test"
   },
@@ -32,6 +35,10 @@
     "@ssgoi/core": "^4.4.1",
     "@ssgoi/solid": "^4.0.0",
     "@tauri-apps/plugin-dialog": "^2.6.0",
+    "@tauri-apps/plugin-deep-link": "^2",
+    "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-shell": "^2",
+    "@tauri-apps/plugin-updater": "^2",
     "solid-js": "^1.9.12",
     "solid-transition-group": "^0.3.0",
     "vinxi": "^0.5.11"
@@ -49,6 +56,11 @@
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.58.0",
+    "@solidjs/testing-library": "^0.8",
+    "@testing-library/jest-dom": "^6",
+    "concurrently": "^9",
+    "jsdom": "^26",
+    "vite-plugin-solid": "^2",
     "vitest": "^4.1.2"
   }
 }

@@ -1,2 +1,51 @@
 @import "tailwindcss";
 @import "./transitions.css";
+
+/* ============================================
+   Dark mode
+   ============================================
+   Uses the system preference by default.
+   To add a manual toggle, set [data-theme="dark"] on <html>
+   and replace @media below with [data-theme="dark"] selectors,
+   or use Tailwind's dark: variants which work out of the box. */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* ============================================
+   Thin scrollbars
+   ============================================
+   Gives desktop-class apps cleaner scrollbars.
+   Safe to remove if you prefer browser defaults. */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, #a1a1aa) transparent;
+}
+
+/* Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb, #a1a1aa);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover, #71717a);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --scrollbar-thumb: #52525b;
+    --scrollbar-thumb-hover: #71717a;
+  }
+}

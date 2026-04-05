@@ -1,0 +1,84 @@
+# solidjs-crossplatform-starter
+
+> One codebase for web (SSR), mobile (Capacitor), and desktop (Tauri) apps using SolidJS.
+
+## Configuration
+
+- app.config.ts: SolidStart + Vite config, platform switching, native dep stubs, devtools, proxy
+- platform.config.ts: Enable/disable platforms (web, mobile, desktop)
+- capacitor.config.ts: Capacitor mobile config
+- src-tauri/tauri.conf.json: Tauri desktop config, CSP, window settings, build commands
+- src-tauri/Cargo.toml: Rust dependencies for Tauri plugins
+- src-tauri/capabilities/default.json: Tauri permission grants
+- tsconfig.json: TypeScript config, ~/* path alias
+- eslint.config.js: ESLint with Solid, TypeScript, jsx-a11y, Prettier
+- .env.example: Environment variables (VITE_API_URL, PLATFORM)
+- .prettierrc: Prettier formatting rules
+
+## Entry Points
+
+- src/app.tsx: Root layout, Router (web) vs HashRouter (native), transitions, swipe-back
+- src/entry-client.tsx: Client-side mount
+- src/entry-server.tsx: Server-side HTML template
+
+## Libraries (src/lib/)
+
+- src/lib/platform.ts: Runtime platform detection (web/mobile/desktop), design language
+- src/lib/api.ts: Platform-aware API base URL, apiFetch() wrapper
+- src/lib/auth.ts: Token storage, fetchWithAuth(), 401 redirect
+- src/lib/sse.ts: SSE client with exponential backoff reconnect
+- src/lib/transitions.ts: Direction signal, CSS transition name resolver
+- src/lib/swipe-back.ts: iOS-style swipe-back gesture hook
+- src/lib/ssgoi.ts: ssgoi transition config per design language
+
+## Components (src/components/)
+
+- src/components/AuthGuard.tsx: Route guard, redirects unauthenticated users
+- src/components/ThemeToggle.tsx: Dark/light/system theme cycle button
+
+## Routes (src/routes/)
+
+- src/routes/index.tsx: Home page with platform info and navigation
+- src/routes/native.tsx: Native API showcase (haptics, dialogs)
+- src/routes/(protected).tsx: Auth-guarded route group layout
+- src/routes/(protected)/dashboard.tsx: Example protected route
+- src/routes/docs/[[lang]].tsx: Optional parameter example
+- src/routes/files/[...path].tsx: Catch-all parameter example
+- src/routes/demo/index.tsx: Page transitions demo
+- src/routes/demo/detail.tsx: Detail page (push transition)
+- src/routes/samples/index.tsx: Sample index with inline counter demo
+- src/routes/samples/counter.tsx: Signals, memos, effects
+- src/routes/samples/todos.tsx: Stores, For, Show
+- src/routes/samples/fetch.tsx: createResource, Suspense, ErrorBoundary
+- src/routes/samples/forms.tsx: Controlled inputs, validation
+- src/routes/samples/store.tsx: createStore, produce, nested state
+- src/routes/samples/sse.tsx: SSE demo with mock/real connection
+
+## Styling
+
+- src/assets/css/app.css: Tailwind, dark mode (prefers-color-scheme), thin scrollbars
+- src/assets/css/transitions.css: Page enter animation, transition container
+
+## Tauri (Desktop)
+
+- src-tauri/src/lib.rs: Plugin registration (dialog, shell, opener, deep-link, single-instance, window-state, updater)
+- src-tauri/src/main.rs: Desktop entry point
+- src-tauri/build.rs: Tauri build script
+
+## Tests
+
+- tests/build/platforms.test.ts: Build verification for web, mobile, desktop
+- tests/unit/counter.test.tsx: Component test example with solid-testing-library
+- e2e/gaps.spec.ts: Playwright E2E tests (meta, static routes, transitions, env)
+
+## CI
+
+- .github/workflows/ci.yml: Lint, format check, build tests, Playwright E2E
+
+## Docs
+
+- README.md: Getting started, platform builds, how it works, examples, scripts
+- docs/architecture.md: Architecture decisions and trade-offs
+- CLAUDE.md: AI coding assistant instructions
+- CONTRIBUTING.md: Contribution guidelines
+- CODE_OF_CONDUCT.md: Contributor Covenant

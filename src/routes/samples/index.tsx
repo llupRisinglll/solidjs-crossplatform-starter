@@ -38,6 +38,18 @@ export default function Samples() {
       concepts: "Controlled inputs, validation, derived state",
       color: "bg-orange-500",
     },
+    {
+      href: "/samples/store",
+      label: "Store & Produce",
+      concepts: "createStore, produce, nested state, derived",
+      color: "bg-teal-500",
+    },
+    {
+      href: "/samples/sse",
+      label: "Server-Sent Events",
+      concepts: "createSSE, real-time, auto-reconnect",
+      color: "bg-rose-500",
+    },
   ];
 
   return (

@@ -16,13 +16,14 @@ function AppLayout(props: { children: JSX.Element }) {
   // Native: platform-aware transitions can be added via solid-transition-group
   // when not using SSR (see docs for native transition setup).
   const location = useLocation();
+  // eslint-disable-next-line no-unassigned-vars -- assigned via JSX ref={}
   let pageRef: HTMLDivElement | undefined;
 
   createEffect(() => {
-    location.pathname;
+    void location.pathname; // track route changes
     if (pageRef) {
       pageRef.style.animation = "none";
-      pageRef.offsetHeight; // force reflow
+      void pageRef.offsetHeight; // force reflow
       pageRef.style.animation = "";
     }
   });

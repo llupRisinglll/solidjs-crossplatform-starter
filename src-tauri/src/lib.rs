@@ -1,7 +1,21 @@
+use tauri::Manager;
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   tauri::Builder::default()
     .plugin(tauri_plugin_dialog::init())
+    .plugin(tauri_plugin_shell::init())
+    .plugin(tauri_plugin_opener::init())
+    .plugin(tauri_plugin_deep_link::init())
+    .plugin(tauri_plugin_window_state::Builder::new().build())
+    // Uncomment after configuring plugins.updater in tauri.conf.json with your pubkey:
+    // .plugin(tauri_plugin_updater::Builder::new().build())
+    .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+      // Focus the main window when a second instance is launched
+      if let Some(w) = app.get_webview_window("main") {
+        let _: Result<(), tauri::Error> = w.set_focus();
+      }
+    }))
     .setup(|app| {
       if cfg!(debug_assertions) {
         app.handle().plugin(
