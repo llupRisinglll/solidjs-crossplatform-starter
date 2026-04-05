@@ -1,6 +1,6 @@
 # Architecture Decisions
 
-This document explains the key trade-offs behind this starter. Read it to understand *why* things are set up this way before changing them.
+This document explains the key trade-offs behind this starter. Read it to understand _why_ things are set up this way before changing them.
 
 ## Why SolidStart (Vinxi) over plain Vite?
 
@@ -18,6 +18,7 @@ The cost is a slightly more complex build pipeline, but you get a production-rea
 Tauri and Capacitor load your app from disk (`file://` or `tauri://`), not from a web server. Standard `Router` generates paths like `/dashboard` which need a server to resolve. `HashRouter` uses `#/dashboard` instead, which works with any file-based hosting.
 
 The app switches automatically based on the `PLATFORM` env var:
+
 - Web: `Router` (clean URLs, SSR support)
 - Desktop/Mobile: `HashRouter` (works with file:// protocols)
 

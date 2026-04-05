@@ -9,8 +9,7 @@ import "./assets/css/app.css";
 function AppLayout(props: { children: JSX.Element }) {
   useSwipeBack();
 
-  const isNative =
-    import.meta.env.IS_MOBILE === "true" || import.meta.env.IS_DESKTOP === "true";
+  const isNative = import.meta.env.IS_MOBILE === "true" || import.meta.env.IS_DESKTOP === "true";
 
   // Web: CSS-only page transition re-triggered on route change.
   // Native: platform-aware transitions can be added via solid-transition-group

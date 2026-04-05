@@ -29,10 +29,7 @@ export function getApiBaseUrl(): string {
  *   const res = await apiFetch("/api/users");
  *   const data = await res.json();
  */
-export async function apiFetch(
-  path: string,
-  init?: RequestInit,
-): Promise<Response> {
+export async function apiFetch(path: string, init?: RequestInit): Promise<Response> {
   const base = getApiBaseUrl();
   return fetch(`${base}${path}`, init);
 }

@@ -39,20 +39,21 @@ npm run format:check     # Prettier check
 
 ## File organization
 
-| Directory | Purpose |
-|-----------|---------|
-| `src/routes/` | Pages (file-based routing) |
-| `src/components/` | Reusable components |
-| `src/lib/` | Utilities (platform, api, auth, sse, transitions) |
-| `src/assets/css/` | Global styles |
-| `src-tauri/` | Tauri desktop config + Rust backend |
-| `tests/unit/` | Component tests |
-| `tests/build/` | Build verification |
-| `e2e/` | Playwright E2E tests |
+| Directory         | Purpose                                           |
+| ----------------- | ------------------------------------------------- |
+| `src/routes/`     | Pages (file-based routing)                        |
+| `src/components/` | Reusable components                               |
+| `src/lib/`        | Utilities (platform, api, auth, sse, transitions) |
+| `src/assets/css/` | Global styles                                     |
+| `src-tauri/`      | Tauri desktop config + Rust backend               |
+| `tests/unit/`     | Component tests                                   |
+| `tests/build/`    | Build verification                                |
+| `e2e/`            | Playwright E2E tests                              |
 
 ## Common patterns
 
 ### Platform-safe native API call
+
 ```tsx
 if (isDesktop()) {
   const { message } = await import("@tauri-apps/plugin-dialog");
@@ -61,12 +62,15 @@ if (isDesktop()) {
 ```
 
 ### Auth-guarded route
+
 Place routes inside `src/routes/(protected)/` — the group layout runs AuthGuard automatically.
 
 ### API calls
+
 Use `apiFetch("/api/endpoint")` from `~/lib/api` for platform-aware base URL. Use `fetchWithAuth()` from `~/lib/auth` when authentication is needed.
 
 ### Adding Tauri capabilities
+
 Edit `src-tauri/capabilities/default.json` to grant permissions. See [Tauri docs](https://v2.tauri.app/security/capabilities/) for the full list.
 
 ## Testing

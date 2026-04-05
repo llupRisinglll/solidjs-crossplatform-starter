@@ -50,10 +50,7 @@ export function isAuthenticated(): boolean {
  *   const res = await fetchWithAuth("/api/me");
  *   const user = await res.json();
  */
-export async function fetchWithAuth(
-  path: string,
-  init?: RequestInit,
-): Promise<Response> {
+export async function fetchWithAuth(path: string, init?: RequestInit): Promise<Response> {
   const base = getApiBaseUrl();
   const token = getToken();
 

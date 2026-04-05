@@ -53,11 +53,11 @@ The project runs on **SolidStart** (Vinxi + Vite) for file-based routing and SSR
 
 ## Prerequisites
 
-| Requirement | Needed for | Install |
-|-------------|-----------|---------|
-| Node.js ≥ 18 | All platforms | [nodejs.org](https://nodejs.org) |
-| Rust + Cargo | Desktop builds only | [rustup.rs](https://rustup.rs) |
-| Xcode | iOS builds only | Mac App Store |
+| Requirement    | Needed for          | Install                                                       |
+| -------------- | ------------------- | ------------------------------------------------------------- |
+| Node.js ≥ 18   | All platforms       | [nodejs.org](https://nodejs.org)                              |
+| Rust + Cargo   | Desktop builds only | [rustup.rs](https://rustup.rs)                                |
+| Xcode          | iOS builds only     | Mac App Store                                                 |
 | Android Studio | Android builds only | [developer.android.com](https://developer.android.com/studio) |
 
 > **Just exploring?** Web development works with Node.js alone — no Rust, Xcode, or Android Studio needed. Add them later when you're ready to target desktop or mobile.
@@ -112,6 +112,7 @@ Desktop builds require system libraries. Install once:
 ```bash
 sudo pacman -S webkit2gtk-4.1
 ```
+
 </details>
 
 <details>
@@ -120,6 +121,7 @@ sudo pacman -S webkit2gtk-4.1
 ```bash
 sudo apt install libwebkit2gtk-4.1-dev build-essential libssl-dev libayatana-appindicator3-dev librsvg2-dev
 ```
+
 </details>
 
 <details>
@@ -128,12 +130,14 @@ sudo apt install libwebkit2gtk-4.1-dev build-essential libssl-dev libayatana-app
 ```bash
 sudo dnf install webkit2gtk4.1-devel openssl-devel
 ```
+
 </details>
 
 <details>
 <summary><strong>macOS / Windows</strong></summary>
 
 See the [Tauri prerequisites guide](https://v2.tauri.app/start/prerequisites/).
+
 </details>
 
 Then build:
@@ -147,12 +151,12 @@ npm run tauri:dev       # Dev with hot reload
 
 The same SolidJS code runs everywhere. The build system handles the differences:
 
-| | Web | Mobile | Desktop |
-|---|---|---|---|
-| **Rendering** | SSR (Node server) | Client-side SPA | Client-side SPA |
-| **Routing** | Standard Router | HashRouter | HashRouter |
-| **Native APIs** | Web APIs | Capacitor plugins | Tauri plugins |
-| **Output** | `.output/server/` | `.output/public/` | Binary + installer |
+|                 | Web               | Mobile            | Desktop            |
+| --------------- | ----------------- | ----------------- | ------------------ |
+| **Rendering**   | SSR (Node server) | Client-side SPA   | Client-side SPA    |
+| **Routing**     | Standard Router   | HashRouter        | HashRouter         |
+| **Native APIs** | Web APIs          | Capacitor plugins | Tauri plugins      |
+| **Output**      | `.output/server/` | `.output/public/` | Binary + installer |
 
 ### Platform Build Modes
 
@@ -236,14 +240,14 @@ Customize in `src/assets/css/transitions.css`.
 
 The starter includes interactive samples that compile on all platforms. Run the app and visit `/samples`, or read the source in `src/routes/samples/`.
 
-| Sample | Route | Concepts |
-|--------|-------|----------|
-| **Counter** | `/samples/counter` | `createSignal`, `createMemo`, `createEffect`, `onCleanup` |
-| **Todo List** | `/samples/todos` | `createStore`, `<For>`, `<Show>`, event handling |
-| **Data Fetching** | `/samples/fetch` | `createResource`, `<Suspense>`, `<ErrorBoundary>` |
-| **Form Handling** | `/samples/forms` | Controlled inputs, validation, derived state |
-| **Store & Produce** | `/samples/store` | `createStore`, `produce`, nested state, derived |
-| **Server-Sent Events** | `/samples/sse` | `createSSE`, real-time updates, auto-reconnect |
+| Sample                 | Route              | Concepts                                                  |
+| ---------------------- | ------------------ | --------------------------------------------------------- |
+| **Counter**            | `/samples/counter` | `createSignal`, `createMemo`, `createEffect`, `onCleanup` |
+| **Todo List**          | `/samples/todos`   | `createStore`, `<For>`, `<Show>`, event handling          |
+| **Data Fetching**      | `/samples/fetch`   | `createResource`, `<Suspense>`, `<ErrorBoundary>`         |
+| **Form Handling**      | `/samples/forms`   | Controlled inputs, validation, derived state              |
+| **Store & Produce**    | `/samples/store`   | `createStore`, `produce`, nested state, derived           |
+| **Server-Sent Events** | `/samples/sse`     | `createSSE`, real-time updates, auto-reconnect            |
 
 <details>
 <summary><strong>Counter — Signals & Reactivity</strong></summary>
@@ -258,6 +262,7 @@ createEffect(() => {
   onCleanup(() => clearInterval(id));
 });
 ```
+
 </details>
 
 <details>
@@ -267,8 +272,13 @@ createEffect(() => {
 const [todos, setTodos] = createStore<Todo[]>([]);
 
 // Surgically update one property on one item — no re-render of the list
-setTodos((t) => t.id === id, "done", (done) => !done);
+setTodos(
+  (t) => t.id === id,
+  "done",
+  (done) => !done,
+);
 ```
+
 </details>
 
 <details>
@@ -281,8 +291,9 @@ const [users, { refetch }] = createResource(enabled, fetchUsers);
   <Suspense fallback={<Spinner />}>
     <For each={users()}>{(user) => <UserCard user={user} />}</For>
   </Suspense>
-</ErrorBoundary>
+</ErrorBoundary>;
 ```
+
 </details>
 
 <details>
@@ -295,26 +306,27 @@ const emailError = createMemo(() =>
 );
 const isValid = createMemo(() => email().includes("@") && !emailError());
 ```
+
 </details>
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start web dev server on port 3456 |
-| `npm run dev:desktop` | Start desktop dev server on port 3457 (SSR disabled) |
-| `npm run dev:all` | Run web + desktop dev servers simultaneously |
-| `npm run build:web` | Build for web (SSR) |
-| `npm run build:mobile` | Build for mobile (static + Capacitor) |
-| `npm run build:desktop` | Build for desktop (static + Tauri) |
-| `npm run tauri:dev` | Desktop dev server with hot reload |
-| `npm run cap:ios` | Open iOS project in Xcode |
-| `npm run cap:android` | Open Android project in Android Studio |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Run Prettier |
-| `npm run test:unit` | Component tests (solid-testing-library) |
-| `npm run test:build` | E2E build tests for all platforms |
-| `npm run test:e2e` | Playwright E2E tests |
+| Command                 | Description                                          |
+| ----------------------- | ---------------------------------------------------- |
+| `npm run dev`           | Start web dev server on port 3456                    |
+| `npm run dev:desktop`   | Start desktop dev server on port 3457 (SSR disabled) |
+| `npm run dev:all`       | Run web + desktop dev servers simultaneously         |
+| `npm run build:web`     | Build for web (SSR)                                  |
+| `npm run build:mobile`  | Build for mobile (static + Capacitor)                |
+| `npm run build:desktop` | Build for desktop (static + Tauri)                   |
+| `npm run tauri:dev`     | Desktop dev server with hot reload                   |
+| `npm run cap:ios`       | Open iOS project in Xcode                            |
+| `npm run cap:android`   | Open Android project in Android Studio               |
+| `npm run lint`          | Run ESLint                                           |
+| `npm run format`        | Run Prettier                                         |
+| `npm run test:unit`     | Component tests (solid-testing-library)              |
+| `npm run test:build`    | E2E build tests for all platforms                    |
+| `npm run test:e2e`      | Playwright E2E tests                                 |
 
 ## Project Structure
 
@@ -383,7 +395,7 @@ Edit `platform.config.ts` to disable platforms you don't need:
 ```ts
 export const platformConfig = {
   web: true,
-  mobile: false,  // disables Capacitor
+  mobile: false, // disables Capacitor
   desktop: true,
 };
 ```

@@ -16,8 +16,8 @@ export default function Dashboard() {
         This route is protected by the <code class="text-sm">(protected)</code> route group.
       </p>
       <p class="text-sm text-gray-500">
-        To test: call <code>setToken("any-value")</code> from <code>~/lib/auth</code> in the
-        browser console, then navigate here.
+        To test: call <code>setToken("any-value")</code> from <code>~/lib/auth</code> in the browser
+        console, then navigate here.
       </p>
       <A
         href="/"
