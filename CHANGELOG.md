@@ -17,7 +17,8 @@ All notable changes to this project are documented here.
 - **Router examples**: optional param `[[lang]]` and catch-all `[...path]` route demos
 - **CI/CD**: `.github/workflows/ci.yml` with lint, format check, build tests, and Playwright E2E
 - **Component tests**: `vitest.config.ts` for jsdom, `@solidjs/testing-library`, sample counter test
-- **Documentation**: `CLAUDE.md` (AI coding instructions), `llms.txt` (file index), `docs/architecture.md` (architecture decisions)
+- **Documentation**: `CLAUDE.md` (AI coding instructions), `llms.txt` (file index), `docs/architecture.md` (architecture decisions), `CHANGELOG.md`
+- **AI-ready**: `CLAUDE.md` and `llms.txt` ship with the template for immediate AI-assisted development
 - **CSP**: production Content Security Policy in `tauri.conf.json`
 - Native dependency stubs changed from throwing to no-op proxy (progressive enhancement)
 

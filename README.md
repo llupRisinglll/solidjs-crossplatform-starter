@@ -432,6 +432,15 @@ if (platform === "mobile") {
 }
 ```
 
+### 4. AI-assisted development
+
+This starter ships with `CLAUDE.md` and `llms.txt` preconfigured for AI coding assistants (Claude Code, Cursor, Copilot, etc.). Edit `CLAUDE.md` to add your project-specific rules, conventions, and gotchas — your AI assistant will follow them automatically.
+
+```
+CLAUDE.md    — project rules, commands, patterns, gotchas
+llms.txt     — file index so AI tools understand the codebase structure
+```
+
 ## Contributing
 
 Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md) before submitting a pull request.
